@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import TextField from '@mui/material/TextField';
+
+import { connect } from 'react-redux';
+import { fetchContent } from '../actions';
 
 import { Logo } from '../components/Logo';
 import { SearchBar } from '../components/SearchBar';
@@ -7,7 +9,7 @@ import { SearchBar } from '../components/SearchBar';
 const Background = styled.section`
   height: 100vh;
   width: 100vw;
-  background-color: black;
+  background: linear-gradient(rgb(35,35,35), #0c0c0c);
   color: white;
   display: flex;
   flex-direction: column;
@@ -15,19 +17,33 @@ const Background = styled.section`
   align-items: center;
 `;
 
-// not the best layout, the focus is on the final product and the improvements can be done with more time.
-
 const LogoPositioner = styled.div`
-  transform: scale(.7) translateX(250px);
+  transform: scale(.7);
 `;
 
-export const Home = () => {
+// https://images-api.nasa.gov/search?q=mars --->DONE
+
+// when press enter, if parameter is valid, fires get request through redux, then go to results page. Parameter is stored as piece of state with redux. and is displayed at results page.  --->DONE
+
+// define "test" to input 
+
+// display page has return button, which returns to results.
+
+// try to smooth out logo render
+
+const Home = ({ fetchContent }:any) => {
   return (
     <Background>
       <LogoPositioner>
         <Logo />
       </LogoPositioner>      
-      < SearchBar />
+      < SearchBar fetchContent={fetchContent} />
     </Background>
   );
 }
+
+const mapStateToProps = (state:any) => {
+  return { nasa: state.nasa}
+}
+
+export default connect(mapStateToProps, { fetchContent })(Home)

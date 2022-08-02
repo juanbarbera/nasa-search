@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import logoNasa from '../assets/images/NASA-logo.webp';
 
 const LogoWrapper = styled.div`
@@ -9,7 +9,7 @@ const LogoWrapper = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 0 100px 100px 0;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + 225px));
 `;
 
 const LogoImage = styled.img`
@@ -19,25 +19,14 @@ const LogoImage = styled.img`
   transform: translateX(-25%);
 `;
 
-const colorChange = keyframes`
-  from {
-    color: rgba(100,100,100,0.3);
-  }
-  to {
-    color: rgb(225,225,225);
-  }
-`;
-
 const Search = styled.div`
   position: relative;
   left: -37.5%;
   font-size: 2.5rem;
-  color: rgb(225,225,225);
+  color: white;
   font-family: 'Cabin', sans-serif;
   font-weight: 600;
   letter-spacing: 8px;
-  animation: ${colorChange} 1;
-  animation-duration: 5s;
 `;
 
 export const Logo = () => {
