@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 
-import { connect } from 'react-redux';
-import { fetchContent } from '../actions';
-
 import { Logo } from '../components/Logo';
-import { SearchBar } from '../components/SearchBar';
+import SearchBar from '../components/SearchBar';
 
 const Background = styled.section`
   height: 100vh;
@@ -31,19 +28,14 @@ const LogoPositioner = styled.div`
 
 // try to smooth out logo render
 
-const Home = ({ fetchContent }:any) => {
+export const Home = () => {
   return (
     <Background>
       <LogoPositioner>
         <Logo />
       </LogoPositioner>      
-      < SearchBar fetchContent={fetchContent} />
+      <SearchBar />
     </Background>
   );
 }
 
-const mapStateToProps = (state:any) => {
-  return { nasa: state.nasa}
-}
-
-export default connect(mapStateToProps, { fetchContent })(Home)

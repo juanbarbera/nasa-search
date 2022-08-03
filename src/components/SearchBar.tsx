@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
 
+import { connect } from 'react-redux';
+import { handleParameter } from '../actions';
+
 import { IconButton } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
@@ -59,8 +62,8 @@ const PlayButton = styled(IconButton)`
 
 // Searchbar has CSS taken from internet and play button with alien music
 
-export const SearchBar = ({fetchContent}:any) => {
-  const [parameter, setParameter] = useState('');
+const SearchBar = ({handleParameter}:any, { query }:any) => {
+  const [value, setValue] = useState('');
   const [audio] = useState(new Audio(benTen));
   const [playing, setPlaying] = useState(false)
 
@@ -69,19 +72,24 @@ export const SearchBar = ({fetchContent}:any) => {
     // playing ? console.log('yes') : console.log('no');
   },[playing, audio])
 
-  const navigate = useNavigate();
-
-  const onFormSubmit = (e:any) => {
-    e.preventDefault();
-    fetchContent(parameter);
-    if (window.location.pathname === "/") {
-      navigate("/results");
-    }
-  }
+  // state is managed locally and sent to redux
 
   const onInputChange = (event:any) => {
-    setParameter(event.target.value)
+    setValue(event.target.value);
+    // handleParameter(event.target.value);  
   }
+
+  const navigate = useNavigate();
+  const onFormSubmit = (e:any) => {
+    e.preventDefault();
+    handleParameter(value);
+    navigate("/results");
+  }  
+
+  useEffect(() => {
+    // handleParameter(value)
+    console.log(value);
+  },[value])
 
   return (
     <Background>
@@ -92,7 +100,7 @@ export const SearchBar = ({fetchContent}:any) => {
               id="input"
               type="text"
               placeholder="Nebula"
-              value={parameter}
+              value={value}
               onChange={onInputChange}
               autoComplete="off"
             />
@@ -108,3 +116,9 @@ export const SearchBar = ({fetchContent}:any) => {
     </Background>
   )
 }
+
+const mapStateToProps = (state:any) => {
+  return { query: state.query };
+}
+
+export default connect(mapStateToProps, { handleParameter })(SearchBar)

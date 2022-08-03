@@ -1,10 +1,12 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
+
 import { connect } from 'react-redux';
-import { fetchContent } from '../actions';
+import { handleParameter } from '../actions';
 
 import { Logo } from '../components/Logo';
-import { SearchBar } from '../components/SearchBar';
-import { useEffect } from 'react';
+import SearchBar from '../components/SearchBar';
 
 const Background = styled.section`
   height: 100vh;
@@ -55,35 +57,68 @@ const SingleResult = styled.img`
   height: 210px;
 `;
 
-// given an array of objects, how do I render a generic component for each object inside the array?
+const Results = ({ query, handleParameter }:any) => {
+  const [controlledResponse, setControlledResponse]:any = useState([]);
 
-// const DynamicallyRenderGrid = (nasa: any) => {
-//   let nasaContent:any = nasa ? nasa.nasaContent : [];
+  const fetchNasa = async (query:any) => {
+    if (query) {
+    const response:any = await axios.get(`https://images-api.nasa.gov/search?q=${query.toLowerCase()}`) 
+      .catch(error => {
+        if (error.response) {
+          // Request made and server responded
+          console.log('Response Data:' + error.response.data);
+          console.log(`Response Status: ${error.response.status}`);
+          console.log(`Response Header: ${error.response.headers}`);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(`Request Error: ${error.request}`);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error:', error.message);
+        }
+      })
 
-
-
-
-//   return (
-//     <>
-//     <SingleResult />
-//     <SingleResult />
-//     <SingleResult />
-//     <SingleResult />
-//     <SingleResult />
-//     <SingleResult />
-//     </>
-//   )
-// }
-
-
-const Results = ({ nasa, fetchContent }:any) => {
+      // console.log(response.data);
+      // controlledResponse =  response ? response.data.collection.items.slice(0, 6) : [];
+      setControlledResponse(response.data.collection.items.slice(0, 6));
+    }    
+  }
   
+  useEffect(() => {
+    fetchNasa(query);
+  },[query]);
 
-  let nasaContent:any = nasa ? nasa.nasaContent : [];
-
-    // useEffect(() => {
-  //   console.log(nasa.nasaContent[0]);
-  // },[nasa])
+  const renderResults = () => {
+    if (controlledResponse.length > 1){
+      // console.log(controlledResponse);
+      return (
+        <>
+        <SingleResult src={controlledResponse[0] ? controlledResponse[0].links[0].href : ''} />
+        <SingleResult src={controlledResponse[1] ? controlledResponse[1].links[0].href : ''}/>
+        <SingleResult src={controlledResponse[2] ? controlledResponse[2].links[0].href : ''}/>
+        <SingleResult src={controlledResponse[3] ? controlledResponse[3].links[0].href : ''}/>
+        <SingleResult src={controlledResponse[4] ? controlledResponse[4].links[0].href : ''}/>
+        <SingleResult src={controlledResponse[5] ? controlledResponse[5].links[0].href : ''}/>
+        </>
+      )
+      // controlledResponse.map((item:any) => {
+      //   console.log(item.links[0].href)
+      //   return <SingleResult key={item.links[0].href} src={item.links[0].href} />
+      // })                  
+      // return( <SingleResult src={controlledResponse[0].links[0].href}/> )
+      // return <div>controlled</div>
+    } else {            
+    return (
+      <>
+      <SingleResult />
+      <SingleResult />
+      <SingleResult />
+      <SingleResult />
+      <SingleResult />
+      <SingleResult />
+      </>
+    )}
+  }
 
   return (
     <Background>
@@ -92,7 +127,7 @@ const Results = ({ nasa, fetchContent }:any) => {
           <Logo />
         </LogoPositioner>
         <SearchBarPositioner>
-          <SearchBar fetchContent={fetchContent} />
+          <SearchBar />
         </SearchBarPositioner>
       </LogoAndSearchBarDivider>      
       <ResultsWrapper>
@@ -113,9 +148,9 @@ const Results = ({ nasa, fetchContent }:any) => {
           } */}
 
           {/* Immediately invoked function expression */}
-          {(() => {
-              if (nasaContent){
-                nasaContent.map((item:any) => {
+          {/* {(() => {
+              if (loaded){
+                controlledResponse.map((item:any) => {
                   return (
                     <SingleResult src={item.links[0].href}/>
                   )
@@ -131,9 +166,9 @@ const Results = ({ nasa, fetchContent }:any) => {
                 <SingleResult />
                 </>
               )
-            })()}
+            })()} */}
 
-
+            {renderResults()}
         </ResultsGrid>
       </ResultsWrapper>
     </Background>
@@ -141,7 +176,7 @@ const Results = ({ nasa, fetchContent }:any) => {
 }
 
 const mapStateToProps = (state:any) => {
-  return { nasa: state.nasa}
+  return { query: state.nasa.query}
 }
 
-export default connect(mapStateToProps, { fetchContent })(Results)
+export default connect(mapStateToProps, { handleParameter })(Results)
