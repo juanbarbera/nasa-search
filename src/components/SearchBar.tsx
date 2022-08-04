@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from "react-router-dom";
-
 import { connect } from 'react-redux';
 import { handleParameter } from '../actions';
+import { useNavigate } from "react-router-dom";
+import styled from 'styled-components';
+
 
 import { IconButton } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';

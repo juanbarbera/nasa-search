@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import styled from 'styled-components';
-
-import { connect } from 'react-redux';
 
 import { Logo } from '../components/Logo';
 import SearchBar from '../components/SearchBar';

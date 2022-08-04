@@ -1,0 +1,3 @@
+export const HANDLE_QUERY:String = "HANDLE_QUERY";
+export const HANDLE_MEDIA_TYPE:String = "HANDLE_MEDIA_TYPE";
+export const HANDLE_RESPONSE_LINK:String = "HANDLE_RESPONSE_LINK";
