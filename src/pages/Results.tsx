@@ -3,7 +3,6 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 import { connect } from 'react-redux';
-import { handleParameter } from '../actions';
 
 import { Logo } from '../components/Logo';
 import SearchBar from '../components/SearchBar';
@@ -57,7 +56,7 @@ const SingleResult = styled.img`
   height: 210px;
 `;
 
-const Results = ({ query, handleParameter }:any) => {
+const Results = ({ query }:any) => {
   const [controlledResponse, setControlledResponse]:any = useState([]);
 
   const fetchNasa = async (query:any) => {
@@ -77,9 +76,7 @@ const Results = ({ query, handleParameter }:any) => {
           console.log('Error:', error.message);
         }
       })
-
       // console.log(response.data);
-      // controlledResponse =  response ? response.data.collection.items.slice(0, 6) : [];
       setControlledResponse(response.data.collection.items.slice(0, 6));
     }    
   }
@@ -90,7 +87,7 @@ const Results = ({ query, handleParameter }:any) => {
 
   const renderResults = () => {
     if (controlledResponse.length > 1){
-      // console.log(controlledResponse);
+      console.log(controlledResponse);
       return (
         <>
         <SingleResult src={controlledResponse[0] ? controlledResponse[0].links[0].href : ''} />
@@ -101,12 +98,6 @@ const Results = ({ query, handleParameter }:any) => {
         <SingleResult src={controlledResponse[5] ? controlledResponse[5].links[0].href : ''}/>
         </>
       )
-      // controlledResponse.map((item:any) => {
-      //   console.log(item.links[0].href)
-      //   return <SingleResult key={item.links[0].href} src={item.links[0].href} />
-      // })                  
-      // return( <SingleResult src={controlledResponse[0].links[0].href}/> )
-      // return <div>controlled</div>
     } else {            
     return (
       <>
@@ -132,43 +123,7 @@ const Results = ({ query, handleParameter }:any) => {
       </LogoAndSearchBarDivider>      
       <ResultsWrapper>
         <ResultsGrid>
-          {/* <SingleResult src={nasa.length > 1 ? nasa.nasaContent[3].links[0].href : ''}/>
-          <SingleResult />
-          <SingleResult />
-          <SingleResult />
-          <SingleResult />
-          <SingleResult /> */}
-
-          {/* { if (nasaContent) {
-            nasaContent.map((item:any) => {
-              // console.log(item.links[0].href)
-              return <SingleResult src={item.links[0].href}/>
-            })
-          }
-          } */}
-
-          {/* Immediately invoked function expression */}
-          {/* {(() => {
-              if (loaded){
-                controlledResponse.map((item:any) => {
-                  return (
-                    <SingleResult src={item.links[0].href}/>
-                  )
-                })                  
-              }              
-              return (
-                <>
-                <SingleResult />
-                <SingleResult />
-                <SingleResult />
-                <SingleResult />
-                <SingleResult />
-                <SingleResult />
-                </>
-              )
-            })()} */}
-
-            {renderResults()}
+          {renderResults()}
         </ResultsGrid>
       </ResultsWrapper>
     </Background>
@@ -179,4 +134,4 @@ const mapStateToProps = (state:any) => {
   return { query: state.nasa.query}
 }
 
-export default connect(mapStateToProps, { handleParameter })(Results)
+export default connect(mapStateToProps, {})(Results)

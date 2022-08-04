@@ -13,7 +13,7 @@ const benTen = require('../assets/audios/benten.mp3');
 
 const Background = styled.div`
   height: auto;
-  width: 400px;
+  width: 600px;
 `;
 
 const InputWrapper = styled.div`
@@ -22,10 +22,11 @@ const InputWrapper = styled.div`
 
 const Divider = styled.div`
   display: flex;
+  justify-content: space-between;
 `;
 
 const Input = styled.input`
-  width: 95%;
+  width: 500px;
   height: 100%;
   background-color: black;
   position: relative;
