@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
+
 import logoNasa from '../assets/images/NASA-logo.webp';
 
 const LogoWrapper = styled.div`
@@ -10,6 +12,7 @@ const LogoWrapper = styled.div`
   align-items: center;
   border-radius: 0 100px 100px 0;
   transform: translateX(calc(-50% + 225px));
+  cursor: pointer;
 `;
 
 const LogoImage = styled.img`
@@ -30,8 +33,10 @@ const Search = styled.div`
 `;
 
 export const Logo = () => {
+  const navigate = useNavigate();
+
   return (
-    <LogoWrapper>
+    <LogoWrapper onClick={() => navigate("/")}>
       <LogoImage src={logoNasa}/>
       <Search>SEARCH</Search>
     </LogoWrapper>

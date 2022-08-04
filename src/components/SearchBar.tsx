@@ -1,32 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { connect } from 'react-redux';
 import { handleParameter } from '../actions';
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 
 
-import { IconButton } from '@mui/material';
+import { IconButton, ButtonGroup, Button } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
+import SearchIcon from '@mui/icons-material/Search';
 
 const benTen = require('../assets/audios/benten.mp3');
 
 const Background = styled.div`
   height: auto;
-  width: 600px;
-`;
-
-const InputWrapper = styled.div`
+  width: 800px;
   box-sizing: border-box;
-`;
-
-const Divider = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const Input = styled.input`
-  width: 500px;
+  width: 400px;
   height: 100%;
   background-color: black;
   position: relative;
@@ -45,14 +41,16 @@ const Input = styled.input`
   }  
 `;
 
-const Play = styled.div`
+const PlayAndSearch = styled.div`
   width: 10%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
-const PlayButton = styled(IconButton)`
+const PlayAndSearchButton = styled(IconButton)`
   && {
-    margin-top: 15%;
     color: #FC3A1B;
     transition: all .3s;
     :hover {
@@ -61,12 +59,47 @@ const PlayButton = styled(IconButton)`
   }
 `;
 
+const ImageOrVideo = styled.div`
+  width: 30%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+interface Props {
+  localMediaType: string
+}
+
+const ImageButton = styled(Button)<Props>`
+  && {
+    color: ${props => props.localMediaType === "image" ? 'white' : '#FC3A1B'};
+    border-color: ${props => props.localMediaType === "image" ? 'white' : '#FC3A1B'};
+    :hover {
+      color: ${props => props.localMediaType === "image" ? 'white' : '#2170ef'};
+      border-color: ${props => props.localMediaType === "image" ? 'white' : '#2170ef'};
+    }
+  }
+`;
+
+const VideoButton = styled(Button)<Props>`
+  && {
+    color: ${props => props.localMediaType === "video" ? 'white' : '#FC3A1B'};
+    border-color: ${props => props.localMediaType === "video" ? 'white' : '#FC3A1B'};
+    :hover {
+      color: ${props => props.localMediaType === "video" ? 'white' : '#2170ef'};
+      border-color: ${props => props.localMediaType === "video" ? 'white' : '#2170ef'};
+    }
+  }
+`;
+
 // Searchbar has CSS taken from internet and play button with alien music
 
 const SearchBar = ({handleParameter}:any, { query }:any) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState<string>('');
   const [audio] = useState(new Audio(benTen));
-  const [playing, setPlaying] = useState(false)
+  const [playing, setPlaying] = useState(false);
+  const [localMediaType, setLocalMediaType] = useState("image");
 
   useEffect(() => {
     playing ? audio.play() : audio.pause();
@@ -90,30 +123,38 @@ const SearchBar = ({handleParameter}:any, { query }:any) => {
   useEffect(() => {
     // handleParameter(value)
     console.log(value);
-  },[value])
+  },[value]);
 
   return (
-    <Background>
-      <InputWrapper>
-        <Divider>
-          <form onSubmit={onFormSubmit}>
-            <Input
-              id="input"
-              type="text"
-              placeholder="Nebula"
-              value={value}
-              onChange={onInputChange}
-              autoComplete="off"
-            />
-          </form>
-          <Play onClick={() => setPlaying(!playing)}>
-            {/* adjust HEIGHT */}
-            <PlayButton>
-              {playing ? <PauseCircleIcon /> : <PlayArrowIcon />}
-            </PlayButton>
-          </Play>
-        </Divider>        
-      </InputWrapper>
+    <Background>      
+      <PlayAndSearch onClick={() => setPlaying(!playing)}>
+        {/* adjust HEIGHT */}
+        <PlayAndSearchButton>
+          {playing ? <PauseCircleIcon /> : <PlayArrowIcon />}
+        </PlayAndSearchButton>
+      </PlayAndSearch>
+      <ImageOrVideo>
+        <ButtonGroup disableElevation={true}>
+          <ImageButton localMediaType={localMediaType} onClick={() => setLocalMediaType("image")}>IMAGE</ImageButton>
+          <VideoButton localMediaType={localMediaType} onClick={() => setLocalMediaType("video")}>VIDEO</VideoButton>
+        </ButtonGroup>
+      </ImageOrVideo>
+      <form onSubmit={onFormSubmit}>
+        <Input
+          id="input"
+          type="text"
+          placeholder="Nebula"
+          value={value}
+          onChange={onInputChange}
+          autoComplete="off"
+        />
+      </form> 
+      
+      <PlayAndSearch>
+        <PlayAndSearchButton>
+          <SearchIcon />
+        </PlayAndSearchButton>
+      </PlayAndSearch>
     </Background>
   )
 }
