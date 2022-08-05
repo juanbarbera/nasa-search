@@ -68,27 +68,27 @@ const ImageOrVideo = styled.div`
 `;
 
 interface Props {
-  localMediaType: string
+  localmediatype: string
 }
 
 const ImageButton = styled(Button)<Props>`
   && {
-    color: ${props => props.localMediaType === "image" ? 'white' : '#FC3A1B'};
-    border-color: ${props => props.localMediaType === "image" ? 'white' : '#FC3A1B'};
+    color: ${props => props.localmediatype === "image" ? 'white' : '#FC3A1B'};
+    border-color: ${props => props.localmediatype === "image" ? 'white' : '#FC3A1B'};
     :hover {
-      color: ${props => props.localMediaType === "image" ? 'white' : '#2170ef'};
-      border-color: ${props => props.localMediaType === "image" ? 'white' : '#2170ef'};
+      color: ${props => props.localmediatype === "image" ? 'white' : '#2170ef'};
+      border-color: ${props => props.localmediatype === "image" ? 'white' : '#2170ef'};
     }
   }
 `;
 
 const VideoButton = styled(Button)<Props>`
   && {
-    color: ${props => props.localMediaType === "video" ? 'white' : '#FC3A1B'};
-    border-color: ${props => props.localMediaType === "video" ? 'white' : '#FC3A1B'};
+    color: ${props => props.localmediatype === "video" ? 'white' : '#FC3A1B'};
+    border-color: ${props => props.localmediatype === "video" ? 'white' : '#FC3A1B'};
     :hover {
-      color: ${props => props.localMediaType === "video" ? 'white' : '#2170ef'};
-      border-color: ${props => props.localMediaType === "video" ? 'white' : '#2170ef'};
+      color: ${props => props.localmediatype === "video" ? 'white' : '#2170ef'};
+      border-color: ${props => props.localmediatype === "video" ? 'white' : '#2170ef'};
     }
   }
 `;
@@ -135,8 +135,8 @@ const SearchBar = ({handleParameter}:any, { query }:any) => {
       </PlayAndSearch>
       <ImageOrVideo>
         <ButtonGroup disableElevation={true}>
-          <ImageButton localMediaType={localMediaType} onClick={() => setLocalMediaType("image")}>IMAGE</ImageButton>
-          <VideoButton localMediaType={localMediaType} onClick={() => setLocalMediaType("video")}>VIDEO</VideoButton>
+          <ImageButton localmediatype={localMediaType} onClick={() => setLocalMediaType("image")}>IMAGE</ImageButton>
+          <VideoButton localmediatype={localMediaType} onClick={() => setLocalMediaType("video")}>VIDEO</VideoButton>
         </ButtonGroup>
       </ImageOrVideo>
       <form onSubmit={onFormSubmit}>

@@ -7,18 +7,17 @@ import { Logo } from '../components/Logo';
 import SearchBar from '../components/SearchBar';
 
 const Background = styled.section`
-  height: 100vh;
-  width: 100vw;
+  height: auto;
+  width: 100%;
   background-color: rgb(35,35,35);
   color: white;
-  display: grid;
-  grid-template-rows: 1fr 4fr;
 `;
 
-const LogoAndSearchBarDivider = styled.div`
+const LogoAndSearchBarWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 5vh;
 `;
 
 const LogoPositioner = styled.div`
@@ -47,12 +46,22 @@ const ResultsGrid = styled.div`
   align-items: center;
   grid-gap: 15px;
   width: 80%;
-  height: 90%;
+  height: auto;
+  margin-bottom: 5vh;
+  @media (min-width: 750px) {
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    grid-gap: 20px;
+  }
+  @media (min-width: 1035px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 `;
 
 const SingleResult = styled.img`
-  width: 350px;
-  height: 210px;
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
 `;
 
 const Results = ({ query }:any) => {
@@ -76,7 +85,7 @@ const Results = ({ query }:any) => {
         }
       })
       // console.log(response.data);
-      setControlledResponse(response.data.collection.items.slice(0, 6));
+      setControlledResponse(response.data.collection.items.slice(0, 13));
     }    
   }
   
@@ -86,15 +95,22 @@ const Results = ({ query }:any) => {
 
   const renderResults = () => {
     if (controlledResponse.length > 1){
-      console.log(controlledResponse);
+      console.log(controlledResponse.length);
       return (
         <>
-        <SingleResult src={controlledResponse[0] ? controlledResponse[0].links[0].href : ''} />
+        <SingleResult src={controlledResponse[0] ? controlledResponse[0].links[0].href : ''}/>
         <SingleResult src={controlledResponse[1] ? controlledResponse[1].links[0].href : ''}/>
         <SingleResult src={controlledResponse[2] ? controlledResponse[2].links[0].href : ''}/>
         <SingleResult src={controlledResponse[3] ? controlledResponse[3].links[0].href : ''}/>
         <SingleResult src={controlledResponse[4] ? controlledResponse[4].links[0].href : ''}/>
         <SingleResult src={controlledResponse[5] ? controlledResponse[5].links[0].href : ''}/>
+        <SingleResult src={controlledResponse[6] ? controlledResponse[6].links[0].href : ''}/>
+        <SingleResult src={controlledResponse[7] ? controlledResponse[7].links[0].href : ''}/>
+        <SingleResult src={controlledResponse[8] ? controlledResponse[8].links[0].href : ''}/>
+        <SingleResult src={controlledResponse[9] ? controlledResponse[9].links[0].href : ''}/>
+        <SingleResult src={controlledResponse[10] ? controlledResponse[10].links[0].href : ''}/>
+        <SingleResult src={controlledResponse[11] ? controlledResponse[11].links[0].href : ''}/>
+        <SingleResult src={controlledResponse[12] ? controlledResponse[12].links[0].href : ''}/>
         </>
       )
     } else {            
@@ -112,14 +128,14 @@ const Results = ({ query }:any) => {
 
   return (
     <Background>
-      <LogoAndSearchBarDivider>
+      <LogoAndSearchBarWrapper>
         <LogoPositioner>
           <Logo />
         </LogoPositioner>
         <SearchBarPositioner>
           <SearchBar />
         </SearchBarPositioner>
-      </LogoAndSearchBarDivider>      
+      </LogoAndSearchBarWrapper>      
       <ResultsWrapper>
         <ResultsGrid>
           {renderResults()}
