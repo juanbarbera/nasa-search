@@ -42,7 +42,6 @@ const Image = styled.img`
   width: 90%;
 `;
 
-
 const Description = styled.div`
   font-family: 'Kanit', sans-serif;
   color: white;
