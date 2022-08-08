@@ -1,28 +1,25 @@
 import {
   HANDLE_QUERY,
   HANDLE_MEDIA_TYPE,
-  HANDLE_RESPONSE_LINK
+  HANDLE_COLLECTION_LINK
 } from './types';
 
-export const handleParameter = (query:String) => {
+export const handleQuery = (query:String) => {
   return {
     type: HANDLE_QUERY,
     payload: query
   }
 }
-
 export const handleMediaType = (mediaType:String) => {
   return {
     type: HANDLE_MEDIA_TYPE,
     payload: mediaType
   }
 }
-
-export const handleResponseLink = (responseLink:String) => {
+export const handleCollectionLink = (collectionLink:String) => {
   return {
-    type: HANDLE_RESPONSE_LINK,
-    payload: responseLink
+    type: HANDLE_COLLECTION_LINK,
+    payload: collectionLink
   }
 }
-
 // example: https://images-api.nasa.gov/search?q=nebula

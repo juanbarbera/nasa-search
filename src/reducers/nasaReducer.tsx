@@ -2,7 +2,7 @@
 import {
   HANDLE_QUERY,
   HANDLE_MEDIA_TYPE,
-  HANDLE_RESPONSE_LINK
+  HANDLE_COLLECTION_LINK
 } from '../actions/types';
 
 export default (state = {}, action:any) => {
@@ -10,9 +10,9 @@ export default (state = {}, action:any) => {
     case HANDLE_QUERY:
       return {...state, query: action.payload};
     case HANDLE_MEDIA_TYPE:
-    return {...state, mediaType: action.payload};
-    case HANDLE_RESPONSE_LINK:
-    return {...state, responseLink: action.payload};
+      return {...state, mediaType: action.payload};
+    case HANDLE_COLLECTION_LINK:
+      return {...state, collectionLink: action.payload};
     default:
       return state;
   }
