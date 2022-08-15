@@ -83,9 +83,9 @@ const ImageDisplay = ({ collectionLink, collectionInfo }:any) => {
         <Logo />
       </LogoPositioner>
       {/* <Image src="https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001465/GSFC_20171208_Archive_e001465~orig.jpg" /> */}
-      <Title>{collectionInfo.title}</Title>
+      <Title>{collectionInfo ? collectionInfo.title : ''}</Title>
       <Image src={imageResponse} />
-      <Description>{collectionInfo.description}</Description>      
+      <Description>{collectionInfo ? collectionInfo.description : ''}</Description>      
     </Background>
   )
 }

@@ -111,7 +111,7 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
           console.log('Error:', error.message);
         }
       })
-      console.log(response.data);
+      // console.log(response.data);
       setControlledResponse(response.data.collection.items.slice(0, 12));
     }   
   };
@@ -127,21 +127,22 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
   const navigate = useNavigate();
 
   const onThumbnailClick = (num:number) => {
-    console.log(controlledResponse[0].data[0].title)
-    console.log(controlledResponse[0].data[0].description)
-    navigate('/image-display');
+    // console.log(controlledResponse[0].data[0].title)
+    // console.log(controlledResponse[0].data[0].description)
+    
     // if (controlledResponse[0]) {
       handleCollectionLink(controlledResponse[num].href);
       handleCollectionInfo(controlledResponse[num].data[0])
     // }
-    
-    
 
-    // if (mediaType === "image") {
+    if (mediaType === "image") {
       // update response link state at redux
       // navigate to image display page
-
+      navigate('/image-display');
+    } else {
+      navigate('/video-display');
     }
+  }
 
   const renderResults = () => {
     if (controlledResponse.length > 1){
