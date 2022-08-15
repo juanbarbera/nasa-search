@@ -68,7 +68,7 @@ const ImageOrVideo = styled.div`
 
 interface Props {
   mediatype: string
-}
+};
 
 const ImageButton = styled(Button)<Props>`
   && {
@@ -92,7 +92,7 @@ const VideoButton = styled(Button)<Props>`
   }
 `;
 
-const SearchBar = ({ handleQuery, handleMediaType, mediaType }:any) => {
+const SearchBar = ({ handleQuery, handleMediaType, mediaType, query }:any) => {
   const [value, setValue] = useState<string>('');
   const [audio] = useState(new Audio(benTen));
   const [playing, setPlaying] = useState(false);
@@ -113,13 +113,13 @@ const SearchBar = ({ handleQuery, handleMediaType, mediaType }:any) => {
     e.preventDefault();
     handleQuery(value);
     navigate("/results");
-  }
+  };
   const onSearchButtonClick = () => {
     handleQuery(value);
     if (location.pathname !== '/results') {
       navigate("/results");
     }    
-  }
+  };
 
   const onImageButtonClick = () => {
     handleMediaType("image");
@@ -165,7 +165,7 @@ const SearchBar = ({ handleQuery, handleMediaType, mediaType }:any) => {
 }
 
 const mapStateToProps = (state:any) => {
-  return { mediaType: state.nasa.mediaType };
+  return { mediaType: state.nasa.mediaType, query: state.nasa.query };
 }
 
 export default connect(mapStateToProps, { handleQuery, handleMediaType })(SearchBar);

@@ -5,7 +5,7 @@ import {
   HANDLE_COLLECTION_LINK
 } from '../actions/types';
 
-export default (state = {}, action:any) => {
+export default (state = { mediaType: "image" }, action:any) => {
   switch (action.type) {
     case HANDLE_QUERY:
       return {...state, query: action.payload};

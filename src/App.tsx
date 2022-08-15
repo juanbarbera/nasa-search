@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { Home } from './pages/Home';
 import Results from './pages/Results';
-import { Display } from './pages/Display';
+import ImageDisplay  from './pages/ImageDisplay';
+import { VideoDisplay } from './pages/VideoDisplay';
 
 const App = () => {
   return (
@@ -10,10 +11,11 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/results" element={<Results />} />
-        <Route path="/display" element={<Display />} />
+        <Route path="/image-display" element={<ImageDisplay />} />
+        <Route path="/video-display" element={<VideoDisplay />} />
       </Routes>
     </Router>
   )  
-}
+};
 
 export default App;

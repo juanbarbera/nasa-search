@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import styled from 'styled-components';
+import { handleCollectionLink } from '../actions';
 
 import { Logo } from '../components/Logo';
 import SearchBar from '../components/SearchBar';
@@ -69,12 +71,13 @@ const SingleResult = styled.img`
   }
 `;
 
-const Results = ({ query, mediaType }:any) => {
+const Results = ({ handleCollectionLink, query, mediaType }:any) => {
   const [controlledResponse, setControlledResponse]:any = useState([]);
 
   const fetchNasa = async (query:any) => {
-    if (query) {
-    const response:any = await axios.get(`https://images-api.nasa.gov/search?q=${query.toLowerCase()}`) 
+    let response:any = {};
+    if (query && mediaType === "image") {
+      response = await axios.get(`https://images-api.nasa.gov/search?q=${query.toLowerCase()}&media_type=image`) 
       .catch(error => {
         if (error.response) {
           // Request made and server responded
@@ -89,25 +92,53 @@ const Results = ({ query, mediaType }:any) => {
           console.log('Error:', error.message);
         }
       })
-      console.log(response.data);
+      // console.log(response.data);
       setControlledResponse(response.data.collection.items.slice(0, 12));
-    }    
-  }
+    } else if (query && mediaType === "video") {
+      response = await axios.get(`https://images-api.nasa.gov/search?q=${query.toLowerCase()}&media_type=video`) 
+      .catch(error => {
+        if (error.response) {
+          // Request made and server responded
+          console.log('Response Data:' + error.response.data);
+          console.log(`Response Status: ${error.response.status}`);
+          console.log(`Response Header: ${error.response.headers}`);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(`Request Error: ${error.request}`);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error:', error.message);
+        }
+      })
+      // console.log(response.data);
+      setControlledResponse(response.data.collection.items.slice(0, 12));
+    }   
+  };
   
   useEffect(() => {
     fetchNasa(query);
-  },[query]);
+  },[query, mediaType]);
+
+  useEffect(() => {
+    console.log(query, mediaType);
+  },[query, mediaType]);
 
   const onThumbnailClick = () => {
-    console.log(mediaType)
+    console.log(controlledResponse[0].href)
+
+    // if (controlledResponse[0]) {
+      handleCollectionLink(controlledResponse[0].href);
+    // }
+    
     // if (mediaType === "image") {
       // update response link state at redux
       // navigate to image display page
+
     }
 
   const renderResults = () => {
     if (controlledResponse.length > 1){
-      console.log(controlledResponse.length);
+      // console.log(controlledResponse.length);
       return (
         <>
         <SingleResult src={controlledResponse[0] ? controlledResponse[0].links[0].href : ''} onClick={onThumbnailClick}/>
@@ -163,4 +194,4 @@ const mapStateToProps = (state:any) => {
   }
 }
 
-export default connect(mapStateToProps, {})(Results)
+export default connect(mapStateToProps, { handleCollectionLink })(Results);
