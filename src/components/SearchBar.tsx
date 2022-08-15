@@ -10,6 +10,7 @@ import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import SearchIcon from '@mui/icons-material/Search';
 
 const benTen = require('../assets/audios/benten.mp3');
+const iFeelSpace = require('../assets/audios/i-feel-space.mov')
 
 const Background = styled.div`
   height: auto;
@@ -94,7 +95,7 @@ const VideoButton = styled(Button)<Props>`
 
 const SearchBar = ({ handleQuery, handleMediaType, mediaType, query }:any) => {
   const [value, setValue] = useState<string>('');
-  const [audio] = useState(new Audio(benTen));
+  const [audio] = useState(new Audio(iFeelSpace));
   const [playing, setPlaying] = useState(false);
 
   useEffect(() => {

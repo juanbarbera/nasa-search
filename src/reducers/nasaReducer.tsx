@@ -2,7 +2,8 @@
 import {
   HANDLE_QUERY,
   HANDLE_MEDIA_TYPE,
-  HANDLE_COLLECTION_LINK
+  HANDLE_COLLECTION_LINK,
+  HANDLE_COLLECTION_INFO  
 } from '../actions/types';
 
 export default (state = { mediaType: "image" }, action:any) => {
@@ -11,6 +12,8 @@ export default (state = { mediaType: "image" }, action:any) => {
       return {...state, query: action.payload};
     case HANDLE_MEDIA_TYPE:
       return {...state, mediaType: action.payload};
+    case HANDLE_COLLECTION_INFO:
+      return {...state, collectionInfo: action.payload};
     case HANDLE_COLLECTION_LINK:
       return {...state, collectionLink: action.payload};
     default:

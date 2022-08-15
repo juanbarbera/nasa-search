@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-import { handleCollectionLink } from '../actions';
+import { handleCollectionLink, handleCollectionInfo } from '../actions';
 
 import { Logo } from '../components/Logo';
 import SearchBar from '../components/SearchBar';
@@ -64,14 +65,14 @@ const ResultsGrid = styled.div`
 const SingleResult = styled.img`
   width: 345px;
   height: 235px;
-  transition: all .15s ease-in-out;
+  transition: all .15s ease-in;
   cursor: pointer;
   :hover {
     transform: scale(1.075);
   }
 `;
 
-const Results = ({ handleCollectionLink, query, mediaType }:any) => {
+const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType }:any) => {
   const [controlledResponse, setControlledResponse]:any = useState([]);
 
   const fetchNasa = async (query:any) => {
@@ -92,7 +93,7 @@ const Results = ({ handleCollectionLink, query, mediaType }:any) => {
           console.log('Error:', error.message);
         }
       })
-      // console.log(response.data);
+      console.log(response.data);
       setControlledResponse(response.data.collection.items.slice(0, 12));
     } else if (query && mediaType === "video") {
       response = await axios.get(`https://images-api.nasa.gov/search?q=${query.toLowerCase()}&media_type=video`) 
@@ -110,7 +111,7 @@ const Results = ({ handleCollectionLink, query, mediaType }:any) => {
           console.log('Error:', error.message);
         }
       })
-      // console.log(response.data);
+      console.log(response.data);
       setControlledResponse(response.data.collection.items.slice(0, 12));
     }   
   };
@@ -123,13 +124,19 @@ const Results = ({ handleCollectionLink, query, mediaType }:any) => {
     console.log(query, mediaType);
   },[query, mediaType]);
 
-  const onThumbnailClick = () => {
-    console.log(controlledResponse[0].href)
+  const navigate = useNavigate();
 
+  const onThumbnailClick = (num:number) => {
+    console.log(controlledResponse[0].data[0].title)
+    console.log(controlledResponse[0].data[0].description)
+    navigate('/image-display');
     // if (controlledResponse[0]) {
-      handleCollectionLink(controlledResponse[0].href);
+      handleCollectionLink(controlledResponse[num].href);
+      handleCollectionInfo(controlledResponse[num].data[0])
     // }
     
+    
+
     // if (mediaType === "image") {
       // update response link state at redux
       // navigate to image display page
@@ -141,18 +148,18 @@ const Results = ({ handleCollectionLink, query, mediaType }:any) => {
       // console.log(controlledResponse.length);
       return (
         <>
-        <SingleResult src={controlledResponse[0] ? controlledResponse[0].links[0].href : ''} onClick={onThumbnailClick}/>
-        <SingleResult src={controlledResponse[1] ? controlledResponse[1].links[0].href : ''}/>
-        <SingleResult src={controlledResponse[2] ? controlledResponse[2].links[0].href : ''}/>
-        <SingleResult src={controlledResponse[3] ? controlledResponse[3].links[0].href : ''}/>
-        <SingleResult src={controlledResponse[4] ? controlledResponse[4].links[0].href : ''}/>
-        <SingleResult src={controlledResponse[5] ? controlledResponse[5].links[0].href : ''}/>
-        <SingleResult src={controlledResponse[6] ? controlledResponse[6].links[0].href : ''}/>
-        <SingleResult src={controlledResponse[7] ? controlledResponse[7].links[0].href : ''}/>
-        <SingleResult src={controlledResponse[8] ? controlledResponse[8].links[0].href : ''}/>
-        <SingleResult src={controlledResponse[9] ? controlledResponse[9].links[0].href : ''}/>
-        <SingleResult src={controlledResponse[10] ? controlledResponse[10].links[0].href : ''}/>
-        <SingleResult src={controlledResponse[11] ? controlledResponse[11].links[0].href : ''}/>
+        <SingleResult src={controlledResponse[0] ? controlledResponse[0].links[0].href : ''} onClick={() => onThumbnailClick(0)}/>
+        <SingleResult src={controlledResponse[1] ? controlledResponse[1].links[0].href : ''} onClick={() => onThumbnailClick(1)}/>
+        <SingleResult src={controlledResponse[2] ? controlledResponse[2].links[0].href : ''} onClick={() => onThumbnailClick(2)}/>
+        <SingleResult src={controlledResponse[3] ? controlledResponse[3].links[0].href : ''} onClick={() => onThumbnailClick(3)}/>
+        <SingleResult src={controlledResponse[4] ? controlledResponse[4].links[0].href : ''} onClick={() => onThumbnailClick(4)}/>
+        <SingleResult src={controlledResponse[5] ? controlledResponse[5].links[0].href : ''} onClick={() => onThumbnailClick(5)}/>
+        <SingleResult src={controlledResponse[6] ? controlledResponse[6].links[0].href : ''} onClick={() => onThumbnailClick(6)}/>
+        <SingleResult src={controlledResponse[7] ? controlledResponse[7].links[0].href : ''} onClick={() => onThumbnailClick(7)}/>
+        <SingleResult src={controlledResponse[8] ? controlledResponse[8].links[0].href : ''} onClick={() => onThumbnailClick(8)}/>
+        <SingleResult src={controlledResponse[9] ? controlledResponse[9].links[0].href : ''} onClick={() => onThumbnailClick(9)}/>
+        <SingleResult src={controlledResponse[10] ? controlledResponse[10].links[0].href : ''} onClick={() => onThumbnailClick(10)}/>
+        <SingleResult src={controlledResponse[11] ? controlledResponse[11].links[0].href : ''} onClick={() => onThumbnailClick(11)}/>
         </>
       )
     } else {            
@@ -194,4 +201,4 @@ const mapStateToProps = (state:any) => {
   }
 }
 
-export default connect(mapStateToProps, { handleCollectionLink })(Results);
+export default connect(mapStateToProps, { handleCollectionLink, handleCollectionInfo })(Results);
