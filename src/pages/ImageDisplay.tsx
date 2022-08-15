@@ -27,10 +27,10 @@ const ReturnButton = styled.div`
   top: 10vh;
   font-family: 'Cabin', sans-serif;
   font-size: 1.5rem;
-  letter-spacing: 5px;
+  /* letter-spacing: 5px; */
   color: rgba(100,100,100,0.3);
   cursor: pointer;
-  transition: all .2s;
+  transition: all .1s;
   :hover {
     color: white;
   }

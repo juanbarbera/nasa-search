@@ -45,8 +45,8 @@ const ResultsGrid = styled.div`
   grid-auto-flow: row;
   justify-items: center;
   align-items: center;
-  grid-gap: 15px;
-  width: 90%;
+  grid-gap: 20px;
+  /* width: 90%; */
   height: auto;
   margin-bottom: 5vh;
   @media (min-width: 750px) {
@@ -57,8 +57,8 @@ const ResultsGrid = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
   }
   @media (min-width: 1500px) {
-    width: 80%;
-    grid-gap: 30px 10px;
+    /* width: 80%; */
+    grid-gap: 30px;
   }
 `;
 

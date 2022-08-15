@@ -28,14 +28,15 @@ const Input = styled.input`
   position: relative;
   margin: 4px;
   border-radius: inherit;
-  transition: all .3s;
+  transition: all .3s ease-in;
   border: 1px solid black;
   color: white;
   font-size: 2rem;
   border-radius: 25px;
   padding-left: 10px;
   :focus {
-    box-shadow: -3px 3px 30px #033A92, 3px -3px 30px #FC3A1B;
+    /* box-shadow: -3px 3px 30px #033A92, 3px -3px 30px #FC3A1B; */
+    box-shadow: 5px 0 50px #111111;
     outline: none !important;
     border: 1px solid black;
   }  
@@ -150,7 +151,7 @@ const SearchBar = ({ handleQuery, handleMediaType, mediaType, query }:any) => {
         <Input
           id="input"
           type="text"
-          placeholder="Nebula"
+          placeholder="supernova"
           value={value}
           onChange={onInputChange}
           autoComplete="off"
