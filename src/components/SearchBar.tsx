@@ -9,8 +9,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import SearchIcon from '@mui/icons-material/Search';
 
-const benTen = require('../assets/audios/benten.mp3');
-const iFeelSpace = require('../assets/audios/i-feel-space.mov')
+const iFeelSpace = require('../assets/audios/i-feel-space.mov');
 
 const Background = styled.div`
   height: auto;
@@ -28,7 +27,7 @@ const Input = styled.input`
   position: relative;
   margin: 4px;
   border-radius: inherit;
-  transition: all .3s ease-in;
+  transition: all .35s ease;
   border: 1px solid black;
   color: white;
   font-size: 2rem;
@@ -36,7 +35,8 @@ const Input = styled.input`
   padding-left: 10px;
   :focus {
     /* box-shadow: -3px 3px 30px #033A92, 3px -3px 30px #FC3A1B; */
-    box-shadow: 5px 0 50px #111111;
+    box-shadow: 0px 3px 35px #033A92, 0px -3px 35px #FC3A1B;
+    /* box-shadow: 5px 0 50px #111111; */
     outline: none !important;
     border: 1px solid black;
   }  

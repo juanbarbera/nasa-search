@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { handleCollectionLink, handleCollectionInfo } from '../actions';
 
 import { Logo } from '../components/Logo';
@@ -62,36 +62,52 @@ const ResultsGrid = styled.div`
   }
 `;
 
-const SingleResult = styled.img`
+interface Props {
+  imgsrc: any;
+  loading: any;
+};
+
+const SingleResult = styled.div<Props>`
   width: 345px;
   height: 235px;
   transition: all .15s ease-in;
   cursor: pointer;
+  background-image: ${props => `url(${props.imgsrc})`} !important;
+  background-size: cover;
   :hover {
     transform: scale(1.075);
   }
 `;
 
+const NoReturn = styled.div`
+  height: 30vh;
+  width: 100%;
+  font-family: 'Kanit', sans-serif;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType }:any) => {
   const [controlledResponse, setControlledResponse]:any = useState([]);
+  const [loading, setLoading]:any = useState(false);
 
   const fetchNasa = async (query:any) => {
     let response:any = {};
     if (query && mediaType === "image") {
-      response = await axios.get(`https://images-api.nasa.gov/search?q=${query.toLowerCase()}&media_type=image`) 
-      .catch(error => {
-        if (error.response) {
-          // Request made and server responded
-          console.log('Response Data:' + error.response.data);
-          console.log(`Response Status: ${error.response.status}`);
-          console.log(`Response Header: ${error.response.headers}`);
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log(`Request Error: ${error.request}`);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error:', error.message);
-        }
+      response = await axios.get(`https://images-api.nasa.gov/search?q=${query.toLowerCase()}&media_type=image`)
+        .catch(error => {
+          setLoading(false);
+          if (error.response) {
+            console.log('Response Data:' + error.response.data);
+            console.log(`Response Status: ${error.response.status}`);
+            console.log(`Response Header: ${error.response.headers}`);
+          } else if (error.request) {
+            console.log(`Request Error: ${error.request}`);
+          } else {
+            console.log('Error:', error.message);
+          }
       })
       console.log(response.data);
       setControlledResponse(response.data.collection.items.slice(0, 12));
@@ -99,22 +115,23 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
       response = await axios.get(`https://images-api.nasa.gov/search?q=${query.toLowerCase()}&media_type=video`) 
       .catch(error => {
         if (error.response) {
-          // Request made and server responded
           console.log('Response Data:' + error.response.data);
           console.log(`Response Status: ${error.response.status}`);
           console.log(`Response Header: ${error.response.headers}`);
         } else if (error.request) {
-          // The request was made but no response was received
           console.log(`Request Error: ${error.request}`);
         } else {
-          // Something happened in setting up the request that triggered an Error
           console.log('Error:', error.message);
         }
       })
-      // console.log(response.data);
+      console.log(response.data);
       setControlledResponse(response.data.collection.items.slice(0, 12));
     }   
   };
+
+  useEffect(() => {
+    console.log(loading);
+  },[loading])
   
   useEffect(() => {
     fetchNasa(query);
@@ -144,35 +161,44 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
     }
   }
 
+  const spaceRemover:any = (num:number) => {
+    let thumbnail:string = '';
+    if (controlledResponse[num]) {
+      thumbnail = controlledResponse[num].links[0].href;
+    }
+    return thumbnail.split(" ").join("%20");
+  }
+
   const renderResults = () => {
     if (controlledResponse.length > 1){
       // console.log(controlledResponse.length);
       return (
         <>
-        <SingleResult src={controlledResponse[0] ? controlledResponse[0].links[0].href : ''} onClick={() => onThumbnailClick(0)}/>
-        <SingleResult src={controlledResponse[1] ? controlledResponse[1].links[0].href : ''} onClick={() => onThumbnailClick(1)}/>
-        <SingleResult src={controlledResponse[2] ? controlledResponse[2].links[0].href : ''} onClick={() => onThumbnailClick(2)}/>
-        <SingleResult src={controlledResponse[3] ? controlledResponse[3].links[0].href : ''} onClick={() => onThumbnailClick(3)}/>
-        <SingleResult src={controlledResponse[4] ? controlledResponse[4].links[0].href : ''} onClick={() => onThumbnailClick(4)}/>
-        <SingleResult src={controlledResponse[5] ? controlledResponse[5].links[0].href : ''} onClick={() => onThumbnailClick(5)}/>
-        <SingleResult src={controlledResponse[6] ? controlledResponse[6].links[0].href : ''} onClick={() => onThumbnailClick(6)}/>
-        <SingleResult src={controlledResponse[7] ? controlledResponse[7].links[0].href : ''} onClick={() => onThumbnailClick(7)}/>
-        <SingleResult src={controlledResponse[8] ? controlledResponse[8].links[0].href : ''} onClick={() => onThumbnailClick(8)}/>
-        <SingleResult src={controlledResponse[9] ? controlledResponse[9].links[0].href : ''} onClick={() => onThumbnailClick(9)}/>
-        <SingleResult src={controlledResponse[10] ? controlledResponse[10].links[0].href : ''} onClick={() => onThumbnailClick(10)}/>
-        <SingleResult src={controlledResponse[11] ? controlledResponse[11].links[0].href : ''} onClick={() => onThumbnailClick(11)}/>
+        <SingleResult loading={loading} imgsrc={spaceRemover(0)} onClick={() => onThumbnailClick(0)}/>
+        <SingleResult loading={loading} imgsrc={spaceRemover(1)} onClick={() => onThumbnailClick(1)}/>
+        <SingleResult loading={loading} imgsrc={spaceRemover(2)} onClick={() => onThumbnailClick(2)}/>
+        <SingleResult loading={loading} imgsrc={spaceRemover(3)} onClick={() => onThumbnailClick(3)}/>
+        <SingleResult loading={loading} imgsrc={spaceRemover(4)} onClick={() => onThumbnailClick(4)}/>
+        <SingleResult loading={loading} imgsrc={spaceRemover(5)} onClick={() => onThumbnailClick(5)}/>
+        <SingleResult loading={loading} imgsrc={spaceRemover(6)} onClick={() => onThumbnailClick(6)}/>
+        <SingleResult loading={loading} imgsrc={spaceRemover(7)} onClick={() => onThumbnailClick(7)}/>
+        <SingleResult loading={loading} imgsrc={spaceRemover(8)} onClick={() => onThumbnailClick(8)}/>
+        <SingleResult loading={loading} imgsrc={spaceRemover(9)} onClick={() => onThumbnailClick(9)}/>
+        <SingleResult loading={loading} imgsrc={spaceRemover(10)} onClick={() => onThumbnailClick(10)}/>
+        <SingleResult loading={loading} imgsrc={spaceRemover(11)} onClick={() => onThumbnailClick(11)}/>
         </>
       )
     } else {            
     return (
-      <>
-      <SingleResult />
-      <SingleResult />
-      <SingleResult />
-      <SingleResult />
-      <SingleResult />
-      <SingleResult />
-      </>
+      // <>
+      // <SingleResult />
+      // <SingleResult />
+      // <SingleResult />
+      // <SingleResult />
+      // <SingleResult />
+      // <SingleResult />
+      // </>
+      <NoReturn>Nothing was found...</NoReturn>
     )}
   }
 

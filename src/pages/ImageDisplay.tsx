@@ -48,6 +48,8 @@ const Title = styled.div`
 
 const Image = styled.img`
   width: 90%;
+  max-height: 90vh;
+  object-fit: scale-down;
 `;
 
 const Description = styled.div`
