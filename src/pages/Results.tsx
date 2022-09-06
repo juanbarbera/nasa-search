@@ -9,11 +9,14 @@ import { handleCollectionLink, handleCollectionInfo } from '../actions';
 import { Logo } from '../components/Logo';
 import SearchBar from '../components/SearchBar';
 
+import earth from '../assets/images/earth.webp';
+import jamesWebb from '../assets/images/JWST.webp';
+
 const Background = styled.section`
   min-width: 100%;
   min-height: 100vh;
   color: white;
-  background: linear-gradient(rgb(35,35,35), #0c0c0c);
+  background: linear-gradient(#2c2c2c, #000000);
 `;
 
 const LogoAndSearchBarWrapper = styled.div`
@@ -39,14 +42,19 @@ const ResultsWrapper = styled.div`
   align-items: center;
 `;
 
-const ResultsGrid = styled.div`
-  display: grid;
+interface Props {
+  imgsrc?: any;
+  isLoading: any;
+};
+
+const ResultsGrid = styled.div<Props>`
+  display: ${props => props.isLoading? 'flex' : 'grid'};
   grid-template-columns: 1fr 1fr 1fr;
   grid-auto-flow: row;
   justify-items: center;
   align-items: center;
   grid-gap: 20px;
-  /* width: 90%; */
+  width: ${props => props.isLoading? '90%' : 'auto'};
   height: auto;
   margin-bottom: 5vh;
   @media (min-width: 750px) {
@@ -57,15 +65,9 @@ const ResultsGrid = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
   }
   @media (min-width: 1500px) {
-    /* width: 80%; */
     grid-gap: 30px;
   }
 `;
-
-interface Props {
-  imgsrc: any;
-  loading: any;
-};
 
 const SingleResult = styled.div<Props>`
   width: 345px;
@@ -89,16 +91,48 @@ const NoReturn = styled.div`
   align-items: center;
 `;
 
+const LoadingAnimationWrapper = styled.div`
+  height: 60vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Earth = styled.img`
+  width: 95px;
+  height: 95px;
+  z-index: 0;
+`;
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg) translateX(150px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translatex(150px) rotate(-360deg);
+  }
+`;
+
+const JamesWebb = styled.img`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  z-index: 1;
+  animation: ${rotate} 4.5s infinite linear;
+`;
+
 const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType }:any) => {
   const [controlledResponse, setControlledResponse]:any = useState([]);
-  const [loading, setLoading]:any = useState(false);
+  const [isLoading, setIsLoading]:any = useState(false); 
 
   const fetchNasa = async (query:any) => {
+    setIsLoading(true);
     let response:any = {};
     if (query && mediaType === "image") {
       response = await axios.get(`https://images-api.nasa.gov/search?q=${query.toLowerCase()}&media_type=image`)
         .catch(error => {
-          setLoading(false);
+          setIsLoading(false);
           if (error.response) {
             console.log('Response Data:' + error.response.data);
             console.log(`Response Status: ${error.response.status}`);
@@ -109,11 +143,13 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
             console.log('Error:', error.message);
           }
       })
-      console.log(response.data);
-      setControlledResponse(response.data.collection.items.slice(0, 12));
+      const firstTwelveItems = response.data.collection.items.slice(0, 12);
+      setControlledResponse(firstTwelveItems);
+      setIsLoading(false);
     } else if (query && mediaType === "video") {
       response = await axios.get(`https://images-api.nasa.gov/search?q=${query.toLowerCase()}&media_type=video`) 
       .catch(error => {
+        setIsLoading(false);
         if (error.response) {
           console.log('Response Data:' + error.response.data);
           console.log(`Response Status: ${error.response.status}`);
@@ -124,37 +160,27 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
           console.log('Error:', error.message);
         }
       })
-      console.log(response.data);
-      setControlledResponse(response.data.collection.items.slice(0, 12));
+      const firstTwelveItems = response.data.collection.items.slice(0, 12);
+      setControlledResponse(firstTwelveItems);
+      setIsLoading(false);
     }   
   };
 
   useEffect(() => {
-    console.log(loading);
-  },[loading])
+    console.log(isLoading);
+  },[isLoading])
   
   useEffect(() => {
     fetchNasa(query);
   },[query, mediaType]);
 
-  useEffect(() => {
-    console.log(query, mediaType);
-  },[query, mediaType]);
-
   const navigate = useNavigate();
 
-  const onThumbnailClick = (num:number) => {
-    // console.log(controlledResponse[0].data[0].title)
-    // console.log(controlledResponse[0].data[0].description)
+  const onThumbnailClick = (num:number) => {    
+    handleCollectionLink(controlledResponse[num].href);
+    handleCollectionInfo(controlledResponse[num].data[0])
     
-    // if (controlledResponse[0]) {
-      handleCollectionLink(controlledResponse[num].href);
-      handleCollectionInfo(controlledResponse[num].data[0])
-    // }
-
     if (mediaType === "image") {
-      // update response link state at redux
-      // navigate to image display page
       navigate('/image-display');
     } else {
       navigate('/video-display');
@@ -170,36 +196,36 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
   }
 
   const renderResults = () => {
-    if (controlledResponse.length > 1){
-      // console.log(controlledResponse.length);
+    if (isLoading) {
       return (
-        <>
-        <SingleResult loading={loading} imgsrc={spaceRemover(0)} onClick={() => onThumbnailClick(0)}/>
-        <SingleResult loading={loading} imgsrc={spaceRemover(1)} onClick={() => onThumbnailClick(1)}/>
-        <SingleResult loading={loading} imgsrc={spaceRemover(2)} onClick={() => onThumbnailClick(2)}/>
-        <SingleResult loading={loading} imgsrc={spaceRemover(3)} onClick={() => onThumbnailClick(3)}/>
-        <SingleResult loading={loading} imgsrc={spaceRemover(4)} onClick={() => onThumbnailClick(4)}/>
-        <SingleResult loading={loading} imgsrc={spaceRemover(5)} onClick={() => onThumbnailClick(5)}/>
-        <SingleResult loading={loading} imgsrc={spaceRemover(6)} onClick={() => onThumbnailClick(6)}/>
-        <SingleResult loading={loading} imgsrc={spaceRemover(7)} onClick={() => onThumbnailClick(7)}/>
-        <SingleResult loading={loading} imgsrc={spaceRemover(8)} onClick={() => onThumbnailClick(8)}/>
-        <SingleResult loading={loading} imgsrc={spaceRemover(9)} onClick={() => onThumbnailClick(9)}/>
-        <SingleResult loading={loading} imgsrc={spaceRemover(10)} onClick={() => onThumbnailClick(10)}/>
-        <SingleResult loading={loading} imgsrc={spaceRemover(11)} onClick={() => onThumbnailClick(11)}/>
-        </>
+        <LoadingAnimationWrapper>
+          <Earth src={earth} />
+          <JamesWebb src={jamesWebb} />
+        </LoadingAnimationWrapper>
       )
-    } else {            
-    return (
-      // <>
-      // <SingleResult />
-      // <SingleResult />
-      // <SingleResult />
-      // <SingleResult />
-      // <SingleResult />
-      // <SingleResult />
-      // </>
-      <NoReturn>Nothing was found...</NoReturn>
-    )}
+    } else {
+      if (controlledResponse.length > 1){
+        return (
+          <>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(0)} onClick={() => onThumbnailClick(0)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(1)} onClick={() => onThumbnailClick(1)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(2)} onClick={() => onThumbnailClick(2)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(3)} onClick={() => onThumbnailClick(3)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(4)} onClick={() => onThumbnailClick(4)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(5)} onClick={() => onThumbnailClick(5)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(6)} onClick={() => onThumbnailClick(6)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(7)} onClick={() => onThumbnailClick(7)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(8)} onClick={() => onThumbnailClick(8)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(9)} onClick={() => onThumbnailClick(9)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(10)} onClick={() => onThumbnailClick(10)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(11)} onClick={() => onThumbnailClick(11)}/>
+          </>
+        )
+      } else {            
+      return (
+        <NoReturn>Nothing was found...</NoReturn>
+      )}
+    }
   }
 
   return (
@@ -213,7 +239,7 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
         </SearchBarPositioner>
       </LogoAndSearchBarWrapper>      
       <ResultsWrapper>
-        <ResultsGrid>
+        <ResultsGrid isLoading={isLoading}>
           {renderResults()}
         </ResultsGrid>
       </ResultsWrapper>

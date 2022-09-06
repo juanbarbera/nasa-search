@@ -8,7 +8,7 @@ import { Logo } from '../components/Logo';
 import { useEffect } from 'react';
 
 const Background = styled.div`
-  background: linear-gradient(rgb(35,35,35), #0c0c0c);
+  background: linear-gradient(#2c2c2c, #000000);
   min-height: 100vh;
   width: 100%;
   display: flex;
@@ -26,9 +26,9 @@ const ReturnButton = styled.div`
   left: 10vw;
   top: 10vh;
   font-family: 'Cabin', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.15rem;
   /* letter-spacing: 5px; */
-  color: rgba(100,100,100,0.3);
+  color: #c0c0c04c;
   cursor: pointer;
   transition: all .1s;
   :hover {
@@ -39,8 +39,8 @@ const ReturnButton = styled.div`
 const Title = styled.div`
   font-family: 'Kanit', sans-serif;
   color: white;
-  margin: 5vh 0;
-  font-size: 2.75rem;
+  margin: 5vh 0 2vh;
+  font-size: 2.35rem;
   font-weight: 500;
   width: 90%;
   text-align: center;
@@ -58,7 +58,7 @@ const Description = styled.div`
   margin: 2vh 0 5vh;
   font-size: 1.25rem;
   font-weight: 300;
-  width: 90%;
+  width: 75%;
 `;
 
 const ImageDisplay = ({ collectionLink, collectionInfo }:any) => {
