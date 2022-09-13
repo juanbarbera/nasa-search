@@ -65,6 +65,7 @@ const PlayButton = styled(IconButton)`
     color: #FC3A1B;
     transition: all .3s;
     @media (min-width: 1100px) {
+      margin-bottom: 0;
       :hover {
         color: #2170ef;
       }
