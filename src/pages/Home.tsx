@@ -56,7 +56,7 @@ export const Home = () => {
         <SearchBar />
       </SearchBarPositioner>
       <FavoritesWrapper>
-        Recommended Image Searches:
+        Recommendations:
         <FavoritesRecommendations>
           <br/>
           reef
