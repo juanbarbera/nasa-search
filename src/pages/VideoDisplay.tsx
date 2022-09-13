@@ -18,7 +18,9 @@ const Background = styled.div`
 
 const LogoPositioner = styled.div`
   transform: scale(.55);
-  /* margin-top: 5vh; */
+  @media (max-width: 1100px) {
+    margin-left: 10vw;
+  }
 `;
 
 const ReturnButton = styled.div`
@@ -27,7 +29,6 @@ const ReturnButton = styled.div`
   top: 10vh;
   font-family: 'Cabin', sans-serif;
   font-size: 1.5rem;
-  /* letter-spacing: 5px; */
   color: rgba(100,100,100,0.3);
   cursor: pointer;
   transition: all .1s;
@@ -35,6 +36,17 @@ const ReturnButton = styled.div`
     :hover {
       color: white;
     }
+  }
+  @media (max-width: 1100px) {
+    position: static;
+    top: 20vh;
+    left: 0;
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #eaeaea4b;
   }
 `;
 
@@ -46,10 +58,17 @@ const Title = styled.div`
   font-weight: 500;
   width: 90%;
   text-align: center;
+  @media (max-width: 1100px) {
+    font-size: 1.85rem;
+  }
 `;
 
-const Image = styled.img`
-  width: 90%;
+const VideoWrapper = styled.div`
+  width: 80vw;
+  height: auto;
+  @media (max-width: 1100px) {
+    width: 95vw;
+  }
 `;
 
 const Description = styled.div`
@@ -59,11 +78,13 @@ const Description = styled.div`
   font-size: 1.25rem;
   font-weight: 300;
   width: 90%;
+  @media (max-width: 1100px) {
+    width: 95%;
+    height: auto;
+    text-align: center;
+    word-break: break-all;
+  }
 `;
-
-// algorithm to select first file with end "~orig.mp4"
-
-
 
 const VideoDisplay = ({ collectionLink, collectionInfo }:any) => {
   const [videoResponse, setVideoResponse]:any = useState('');
@@ -88,14 +109,16 @@ const VideoDisplay = ({ collectionLink, collectionInfo }:any) => {
 
   return (
     <Background>
-      <ReturnButton onClick={() => navigate('/results')}>RETURN</ReturnButton>
       <LogoPositioner>
         <Logo />
       </LogoPositioner>
+      <ReturnButton onClick={() => navigate('/results')}>RETURN</ReturnButton>
       {/* <Image src="https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001465/GSFC_20171208_Archive_e001465~orig.jpg" /> */}
       <Title>{collectionInfo ? collectionInfo.title : ''}</Title>
       {/* <Image src={videoResponse} /> */}
-      <video src={videoResponse} width="1000" controls autoPlay={true} />
+      <VideoWrapper>
+        <video src={videoResponse} width="100%" controls autoPlay={true} />
+      </VideoWrapper>
       <Description>{collectionInfo ? collectionInfo.description: ''}</Description>      
     </Background>
   )

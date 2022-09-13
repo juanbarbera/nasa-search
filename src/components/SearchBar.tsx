@@ -19,7 +19,7 @@ const Background = styled.div`
   justify-content: space-between;
   align-items: center;
   @media (max-width: 1100px) {
-    height: 40vh;
+    height: 30vh;
     width: 100vw;
     flex-direction: column;
     justify-content: center;
@@ -80,6 +80,7 @@ const Form = styled.form`
 const CustomSearchIcon = styled(SearchIcon)`
   @media (max-width: 1100px) {
     margin-top: 3vh;
+    /* transform: scale(1.5); */ // <-- DELETE ME
   }
 `;
 
@@ -89,6 +90,9 @@ const ImageOrVideo = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width: 1100px) {
+    /* transform: scale(1.5); */ // <-- DELETE ME
+  }
 `;
 
 interface Props {

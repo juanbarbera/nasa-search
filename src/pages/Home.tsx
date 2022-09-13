@@ -27,7 +27,7 @@ const SearchBarPositioner = styled.div`
 
 const FavoritesWrapper = styled.div`
   position: absolute;
-  top: 80%;
+  top: 75%;
   font-family: 'Ubuntu Mono', monospace;
   width: 100%;
   height: 15vh;
@@ -38,6 +38,7 @@ const FavoritesWrapper = styled.div`
   text-align: left;
   @media (max-width: 1100px) {
     position: static;
+    margin-top: 3.5vh;
   }
 `;
 

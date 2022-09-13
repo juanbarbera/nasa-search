@@ -29,7 +29,6 @@ const ReturnButton = styled.div`
   top: 10vh;
   font-family: 'Cabin', sans-serif;
   font-size: 1.15rem;
-  /* letter-spacing: 5px; */
   color: #c0c0c04c;
   cursor: pointer;
   transition: all .1s;
@@ -39,10 +38,11 @@ const ReturnButton = styled.div`
     }
   }
   @media (max-width: 1100px) {
+    position: static;
     top: 20vh;
     left: 0;
     width: 100%;
-    height: 15vh;
+    height: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -103,10 +103,10 @@ const ImageDisplay = ({ collectionLink, collectionInfo }:any) => {
 
   return (
     <Background>
-      <ReturnButton onClick={() => navigate('/results')}>RETURN</ReturnButton>
       <LogoPositioner>
         <Logo />
       </LogoPositioner>
+      <ReturnButton onClick={() => navigate('/results')}>RETURN</ReturnButton>
       {/* <Image src="https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001465/GSFC_20171208_Archive_e001465~orig.jpg" /> */}
       <Title>{collectionInfo ? collectionInfo.title : ''}</Title>
       <Image src={imageResponse} />

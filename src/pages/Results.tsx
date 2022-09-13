@@ -42,7 +42,8 @@ const LogoPositioner = styled.div`
 const SearchBarPositioner = styled.div`
   transform: scale(.7);
   @media (max-width: 1100px) {
-    margin-top: -10vh;
+    margin-bottom: 5vh;
+    transform: scale(1);
   }
 `;
 
