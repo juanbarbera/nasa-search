@@ -18,6 +18,13 @@ const Background = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 1100px) {
+    height: 40vh;
+    width: 100vw;
+    flex-direction: column;
+    justify-content: center;
+    align-items: space-around;
+  }
 `;
 
 const Input = styled.input`
@@ -34,12 +41,14 @@ const Input = styled.input`
   border-radius: 25px;
   padding-left: 10px;
   :focus {
-    /* box-shadow: -3px 3px 30px #033A92, 3px -3px 30px #FC3A1B; */
     box-shadow: 0px 3px 35px #033A92, 0px -3px 35px #FC3A1B;
-    /* box-shadow: 5px 0 50px #111111; */
     outline: none !important;
     border: 1px solid black;
-  }  
+  } 
+  @media (max-width: 1100px) {
+    width: 90%;
+    margin-left: 5vw;
+  } 
 `;
 
 const PlayAndSearch = styled.div`
@@ -54,9 +63,23 @@ const PlayAndSearchButton = styled(IconButton)`
   && {
     color: #FC3A1B;
     transition: all .3s;
-    :hover {
-      color: #2170ef;
+    @media (min-width: 1100px) {
+      :hover {
+        color: #2170ef;
+      }
     }
+  }
+`;
+
+const Form = styled.form`
+  @media (max-width: 1100px) {
+    margin-top: 5vh;
+  }
+`;
+
+const CustomSearchIcon = styled(SearchIcon)`
+  @media (max-width: 1100px) {
+    margin-top: 3vh;
   }
 `;
 
@@ -76,9 +99,11 @@ const ImageButton = styled(Button)<Props>`
   && {
     color: ${props => props.mediatype === "image" ? 'white' : '#FC3A1B'};
     border-color: ${props => props.mediatype === "image" ? 'white' : '#FC3A1B'};
-    :hover {
-      color: ${props => props.mediatype === "image" ? 'white' : '#2170ef'};
-      border-color: ${props => props.mediatype === "image" ? 'white' : '#2170ef'};
+    @media (min-width: 1100px) {
+      :hover {
+        color: ${props => props.mediatype === "image" ? 'white' : '#2170ef'};
+        border-color: ${props => props.mediatype === "image" ? 'white' : '#2170ef'};
+      }
     }
   }
 `;
@@ -87,9 +112,11 @@ const VideoButton = styled(Button)<Props>`
   && {
     color: ${props => props.mediatype === "video" ? 'white' : '#FC3A1B'};
     border-color: ${props => props.mediatype === "video" ? 'white' : '#FC3A1B'};
-    :hover {
-      color: ${props => props.mediatype === "video" ? 'white' : '#2170ef'};
-      border-color: ${props => props.mediatype === "video" ? 'white' : '#2170ef'};
+    @media (min-width: 1100px) {
+      :hover {
+        color: ${props => props.mediatype === "video" ? 'white' : '#2170ef'};
+        border-color: ${props => props.mediatype === "video" ? 'white' : '#2170ef'};
+      }      
     }
   }
 `;
@@ -103,7 +130,6 @@ const SearchBar = ({ handleQuery, handleMediaType, mediaType, query }:any) => {
     playing ? audio.play() : audio.pause();
   },[playing, audio])
 
-  // state is managed locally then it is sent to redux on submission. Request is made by results page
   const onInputChange = (event:any) => {
     setValue(event.target.value); 
   }
@@ -130,10 +156,6 @@ const SearchBar = ({ handleQuery, handleMediaType, mediaType, query }:any) => {
     handleMediaType("video");
   }
 
-  // useEffect(() => {
-  //   console.log(mediaType);
-  // },[mediaType])
-
   return (
     <Background>      
       <PlayAndSearch onClick={() => setPlaying(!playing)}>
@@ -147,7 +169,7 @@ const SearchBar = ({ handleQuery, handleMediaType, mediaType, query }:any) => {
           <VideoButton mediatype={mediaType} onClick={onVideoButtonClick}>VIDEO</VideoButton>
         </ButtonGroup>
       </ImageOrVideo>
-      <form onSubmit={onFormSubmit}>
+      <Form onSubmit={onFormSubmit}>
         <Input
           id="input"
           type="text"
@@ -156,10 +178,10 @@ const SearchBar = ({ handleQuery, handleMediaType, mediaType, query }:any) => {
           onChange={onInputChange}
           autoComplete="off"
         />
-      </form>      
+      </Form>      
       <PlayAndSearch>
         <PlayAndSearchButton onClick={onSearchButtonClick}>
-          <SearchIcon />
+          <CustomSearchIcon />
         </PlayAndSearchButton>
       </PlayAndSearch>
     </Background>

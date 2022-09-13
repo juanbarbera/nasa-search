@@ -13,8 +13,9 @@ import earth from '../assets/images/earth.webp';
 import jamesWebb from '../assets/images/JWST.webp';
 
 const Background = styled.section`
-  min-width: 100%;
+  width: 100%;
   min-height: 100vh;
+  height: auto;
   color: white;
   background: linear-gradient(#2c2c2c, #000000);
 `;
@@ -24,16 +25,25 @@ const LogoAndSearchBarWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 5vh;
+  @media (max-width: 1100px) {
+    margin-bottom: 0;
+  }
 `;
 
 const LogoPositioner = styled.div`
   display: flex;
   justify-content: center;
   transform: scale(.55);
+  @media (max-width: 1100px) {
+    margin-left: 10vw;
+  }
 `;
 
 const SearchBarPositioner = styled.div`
   transform: scale(.7);
+  @media (max-width: 1100px) {
+    margin-top: -10vh;
+  }
 `;
 
 const ResultsWrapper = styled.div`
@@ -49,7 +59,7 @@ interface Props {
 
 const ResultsGrid = styled.div<Props>`
   display: ${props => props.isLoading? 'flex' : 'grid'};
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-auto-flow: row;
   justify-items: center;
   align-items: center;
@@ -76,8 +86,10 @@ const SingleResult = styled.div<Props>`
   cursor: pointer;
   background-image: ${props => `url(${props.imgsrc})`} !important;
   background-size: cover;
-  :hover {
-    transform: scale(1.075);
+  @media (min-width: 1100px) {
+    :hover {
+      transform: scale(1.075);
+    }
   }
 `;
 

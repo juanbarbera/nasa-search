@@ -18,7 +18,9 @@ const Background = styled.div`
 
 const LogoPositioner = styled.div`
   transform: scale(.55);
-  /* margin-top: 5vh; */
+  @media (max-width: 1100px) {
+    margin-left: 10vw;
+  }
 `;
 
 const ReturnButton = styled.div`
@@ -31,8 +33,20 @@ const ReturnButton = styled.div`
   color: #c0c0c04c;
   cursor: pointer;
   transition: all .1s;
-  :hover {
-    color: white;
+  @media (min-width: 1100px) {
+    :hover {
+      color: white;
+    }
+  }
+  @media (max-width: 1100px) {
+    top: 20vh;
+    left: 0;
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #eaeaea4b;
   }
 `;
 
@@ -44,6 +58,9 @@ const Title = styled.div`
   font-weight: 500;
   width: 90%;
   text-align: center;
+  @media (max-width: 1100px) {
+    font-size: 1.85rem;
+  }
 `;
 
 const Image = styled.img`
@@ -59,6 +76,12 @@ const Description = styled.div`
   font-size: 1.25rem;
   font-weight: 300;
   width: 75%;
+  @media (max-width: 1100px) {
+    width: 95%;
+    height: auto;
+    text-align: center;
+    word-break: break-all;
+  }
 `;
 
 const ImageDisplay = ({ collectionLink, collectionInfo }:any) => {

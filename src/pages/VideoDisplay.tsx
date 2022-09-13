@@ -31,8 +31,10 @@ const ReturnButton = styled.div`
   color: rgba(100,100,100,0.3);
   cursor: pointer;
   transition: all .1s;
-  :hover {
-    color: white;
+  @media (min-width: 1100px) {
+    :hover {
+      color: white;
+    }
   }
 `;
 
