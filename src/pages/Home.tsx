@@ -30,14 +30,14 @@ const FavoritesWrapper = styled.div`
   top: 80%;
   font-family: 'Ubuntu Mono', monospace;
   width: 100%;
-  height: 5vh;
+  height: 15vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: left;
   @media (max-width: 1100px) {
-    top: 90%;
+    position: static;
   }
 `;
 
