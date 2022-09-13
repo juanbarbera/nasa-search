@@ -59,7 +59,20 @@ const PlayAndSearch = styled.div`
   justify-content: center;
 `;
 
-const PlayAndSearchButton = styled(IconButton)`
+const PlayButton = styled(IconButton)`
+  && {
+    margin-bottom: 3vh;
+    color: #FC3A1B;
+    transition: all .3s;
+    @media (min-width: 1100px) {
+      :hover {
+        color: #2170ef;
+      }
+    }
+  }
+`;
+
+const SearchButton = styled(IconButton)`
   && {
     color: #FC3A1B;
     transition: all .3s;
@@ -163,9 +176,9 @@ const SearchBar = ({ handleQuery, handleMediaType, mediaType, query }:any) => {
   return (
     <Background>      
       <PlayAndSearch onClick={() => setPlaying(!playing)}>
-        <PlayAndSearchButton>
+        <PlayButton>
           {playing ? <PauseCircleIcon /> : <PlayArrowIcon />}
-        </PlayAndSearchButton>
+        </PlayButton>
       </PlayAndSearch>
       <ImageOrVideo>
         <ButtonGroup>
@@ -184,9 +197,9 @@ const SearchBar = ({ handleQuery, handleMediaType, mediaType, query }:any) => {
         />
       </Form>      
       <PlayAndSearch>
-        <PlayAndSearchButton onClick={onSearchButtonClick}>
+        <SearchButton onClick={onSearchButtonClick}>
           <CustomSearchIcon />
-        </PlayAndSearchButton>
+        </SearchButton>
       </PlayAndSearch>
     </Background>
   )
