@@ -83,7 +83,7 @@ const ResultsGrid = styled.div<Props>`
 const SingleResult = styled.div<Props>`
   width: 345px;
   height: 235px;
-  transition: all .15s ease-in;
+  transition: all .125s;
   cursor: pointer;
   background-image: ${props => `url(${props.imgsrc})`} !important;
   background-size: cover;
