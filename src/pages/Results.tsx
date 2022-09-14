@@ -18,6 +18,7 @@ const Background = styled.section`
   height: auto;
   color: white;
   background: linear-gradient(#2c2c2c, #000000);
+  overflow: hidden;
 `;
 
 const LogoAndSearchBarWrapper = styled.div`
@@ -83,13 +84,13 @@ const ResultsGrid = styled.div<Props>`
 const SingleResult = styled.div<Props>`
   width: 345px;
   height: 235px;
-  transition: all .125s;
+  transition: all .25s;
   cursor: pointer;
   background-image: ${props => `url(${props.imgsrc})`} !important;
   background-size: cover;
   @media (min-width: 1100px) {
     :hover {
-      transform: scale(1.075);
+      transform: scale(1.085);
     }
   }
 `;
@@ -156,8 +157,8 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
             console.log('Error:', error.message);
           }
       })
-      const firstTwelveItems = response.data.collection.items.slice(0, 12);
-      setControlledResponse(firstTwelveItems);
+      const firstEighteenItems = response.data.collection.items.slice(0, 18);
+      setControlledResponse(firstEighteenItems);
       setIsLoading(false);
     } else if (query && mediaType === "video") {
       response = await axios.get(`https://images-api.nasa.gov/search?q=${query.toLowerCase()}&media_type=video`) 
@@ -173,15 +174,15 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
           console.log('Error:', error.message);
         }
       })
-      const firstTwelveItems = response.data.collection.items.slice(0, 12);
-      setControlledResponse(firstTwelveItems);
+      const firstEighteenItems = response.data.collection.items.slice(0, 18);
+      setControlledResponse(firstEighteenItems);
       setIsLoading(false);
     }   
   };
 
   // useEffect(() => {
-  //   console.log(isLoading);
-  // },[isLoading])
+  //   console.log(controlledResponse);
+  // },[controlledResponse])
   
   useEffect(() => {
     fetchNasa(query);
@@ -192,7 +193,6 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
   const onThumbnailClick = (num:number) => {    
     handleCollectionLink(controlledResponse[num].href);
     handleCollectionInfo(controlledResponse[num].data[0]);
-    
     if (mediaType === "image") {
       navigate('/image-display');
     } else {
@@ -232,6 +232,12 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
           <SingleResult isLoading={isLoading} imgsrc={spaceRemover(9)} onClick={() => onThumbnailClick(9)}/>
           <SingleResult isLoading={isLoading} imgsrc={spaceRemover(10)} onClick={() => onThumbnailClick(10)}/>
           <SingleResult isLoading={isLoading} imgsrc={spaceRemover(11)} onClick={() => onThumbnailClick(11)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(12)} onClick={() => onThumbnailClick(12)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(13)} onClick={() => onThumbnailClick(13)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(14)} onClick={() => onThumbnailClick(14)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(15)} onClick={() => onThumbnailClick(15)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(16)} onClick={() => onThumbnailClick(16)}/>
+          <SingleResult isLoading={isLoading} imgsrc={spaceRemover(17)} onClick={() => onThumbnailClick(17)}/>
           </>
         )
       } else {            

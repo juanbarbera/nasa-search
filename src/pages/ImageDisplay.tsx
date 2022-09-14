@@ -64,15 +64,15 @@ const Title = styled.div`
 `;
 
 const Image = styled.img`
-  width: 90%;
-  max-height: 90vh;
+  width: 80%;
+  max-height: 80vh;
   object-fit: scale-down;
 `;
 
 const Description = styled.div`
   font-family: 'Kanit', sans-serif;
   color: white;
-  margin: 2vh 0 5vh;
+  margin: 5vh 0 5vh;
   font-size: 1.25rem;
   font-weight: 300;
   width: 75%;
@@ -109,7 +109,7 @@ const ImageDisplay = ({ collectionLink, collectionInfo }:any) => {
       <ReturnButton onClick={() => navigate('/results')}>RETURN</ReturnButton>
       {/* <Image src="https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001465/GSFC_20171208_Archive_e001465~orig.jpg" /> */}
       <Title>{collectionInfo ? collectionInfo.title : ''}</Title>
-      <Image src={imageResponse} />
+      <Image src={imageResponse}/>
       <Description>{collectionInfo ? collectionInfo.description : ''}</Description>      
     </Background>
   )

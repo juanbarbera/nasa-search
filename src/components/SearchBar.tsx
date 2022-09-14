@@ -149,7 +149,7 @@ const VideoButton = styled(Button)<Props>`
   }
 `;
 
-const SearchBar = ({ handleQuery, handleMediaType, mediaType, query }:any) => {
+const SearchBar = ({ handleQuery, handleMediaType, mediaType }:any) => {
   const [value, setValue] = useState<string>('');
   const [audio] = useState(new Audio(iFeelSpace));
   const [playing, setPlaying] = useState(false);
