@@ -43,7 +43,7 @@ const FavoritesWrapper = styled.div`
 `;
 
 const FavoritesRecommendations = styled.div`
-  text-align: center;
+  text-align: left;
 `;
 
 export const Home = () => {
@@ -59,11 +59,11 @@ export const Home = () => {
         Recommendations:
         <FavoritesRecommendations>
           <br/>
-          reef
+          - reef
           <br/>
-          nebula
+          - nebula
           <br/>
-          black hole
+          - black hole
         </FavoritesRecommendations>
       </FavoritesWrapper>
     </Background>

@@ -12,14 +12,13 @@ import SearchIcon from '@mui/icons-material/Search';
 const iFeelSpace = require('../assets/audios/i-feel-space.mov');
 
 const Background = styled.div`
-  height: auto;
   width: 800px;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
   @media (max-width: 1100px) {
-    height: 30vh;
+    height: 25vh;
     width: 100vw;
     flex-direction: column;
     justify-content: center;
@@ -51,7 +50,15 @@ const Input = styled.input`
   } 
 `;
 
-const PlayAndSearch = styled.div`
+// const PlayAndSearch = styled.div`
+//   width: 10%;
+//   height: 100%;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// `;
+
+const PlayWrapper = styled.div`
   width: 10%;
   height: 100%;
   display: flex;
@@ -61,7 +68,7 @@ const PlayAndSearch = styled.div`
 
 const PlayButton = styled(IconButton)`
   && {
-    margin-bottom: 3vh;
+    margin-bottom: 1vh;
     color: #FC3A1B;
     transition: all .3s;
     @media (min-width: 1100px) {
@@ -73,10 +80,19 @@ const PlayButton = styled(IconButton)`
   }
 `;
 
+const SearchWrapper = styled.div`
+  /* width: 10%; */
+  /* height: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const SearchButton = styled(IconButton)`
   && {
     color: #FC3A1B;
     transition: all .3s;
+    margin-left: 1vw;
     @media (min-width: 1100px) {
       :hover {
         color: #2170ef;
@@ -85,16 +101,11 @@ const SearchButton = styled(IconButton)`
   }
 `;
 
-const Form = styled.form`
-  @media (max-width: 1100px) {
-    margin-top: 5vh;
-  }
-`;
+const Form = styled.form``;
 
 const CustomSearchIcon = styled(SearchIcon)`
   @media (max-width: 1100px) {
-    margin-top: 3vh;
-    /* transform: scale(1.5); */ // <-- DELETE ME
+    /* margin-top: 3vh; */
   }
 `;
 
@@ -105,7 +116,6 @@ const ImageOrVideo = styled.div`
   align-items: center;
   justify-content: center;
   @media (max-width: 1100px) {
-    /* transform: scale(1.5); */ // <-- DELETE ME
   }
 `;
 
@@ -176,32 +186,32 @@ const SearchBar = ({ handleQuery, handleMediaType, mediaType, query }:any) => {
 
   return (
     <Background>      
-      <PlayAndSearch onClick={() => setPlaying(!playing)}>
+      <PlayWrapper onClick={() => setPlaying(!playing)}>
         <PlayButton>
           {playing ? <PauseCircleIcon /> : <PlayArrowIcon />}
         </PlayButton>
-      </PlayAndSearch>
+      </PlayWrapper>
       <ImageOrVideo>
         <ButtonGroup>
           <ImageButton mediatype={mediaType} onClick={onImageButtonClick}>IMAGE</ImageButton>
           <VideoButton mediatype={mediaType} onClick={onVideoButtonClick}>VIDEO</VideoButton>
         </ButtonGroup>
       </ImageOrVideo>
-      <Form onSubmit={onFormSubmit}>
-        <Input
-          id="input"
-          type="text"
-          placeholder="supernova"
-          value={value}
-          onChange={onInputChange}
-          autoComplete="off"
-        />
-      </Form>      
-      <PlayAndSearch>
+      <SearchWrapper>
+        <Form onSubmit={onFormSubmit}>
+          <Input
+            id="input"
+            type="text"
+            placeholder="supernova"
+            value={value}
+            onChange={onInputChange}
+            autoComplete="off"
+          />
+        </Form>
         <SearchButton onClick={onSearchButtonClick}>
           <CustomSearchIcon />
         </SearchButton>
-      </PlayAndSearch>
+      </SearchWrapper>
     </Background>
   )
 }

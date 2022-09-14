@@ -179,9 +179,9 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
     }   
   };
 
-  useEffect(() => {
-    console.log(isLoading);
-  },[isLoading])
+  // useEffect(() => {
+  //   console.log(isLoading);
+  // },[isLoading])
   
   useEffect(() => {
     fetchNasa(query);
@@ -191,7 +191,7 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
 
   const onThumbnailClick = (num:number) => {    
     handleCollectionLink(controlledResponse[num].href);
-    handleCollectionInfo(controlledResponse[num].data[0])
+    handleCollectionInfo(controlledResponse[num].data[0]);
     
     if (mediaType === "image") {
       navigate('/image-display');
