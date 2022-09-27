@@ -25,7 +25,7 @@ const LogoPositioner = styled.div`
 
 const ReturnButton = styled.div`
   position: absolute;
-  left: 10vw;
+  left: 20vw;
   top: 10vh;
   font-family: 'Cabin', sans-serif;
   font-size: 1.15rem;
@@ -97,9 +97,8 @@ const ImageDisplay = ({ collectionLink, collectionInfo }:any) => {
   }
   
   useEffect(() => {
-    console.log(collectionLink, collectionInfo)
     fetchNasaMedia();
-  },[collectionLink, collectionInfo])
+  },[])
 
   return (
     <Background>
@@ -107,9 +106,8 @@ const ImageDisplay = ({ collectionLink, collectionInfo }:any) => {
         <Logo />
       </LogoPositioner>
       <ReturnButton onClick={() => navigate('/results')}>RETURN</ReturnButton>
-      {/* <Image src="https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001465/GSFC_20171208_Archive_e001465~orig.jpg" /> */}
       <Title>{collectionInfo ? collectionInfo.title : ''}</Title>
-      <Image src={imageResponse}/>
+      <Image src={imageResponse} />
       <Description>{collectionInfo ? collectionInfo.description : ''}</Description>      
     </Background>
   )

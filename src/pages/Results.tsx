@@ -179,11 +179,7 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
       setIsLoading(false);
     }   
   };
-
-  // useEffect(() => {
-  //   console.log(controlledResponse);
-  // },[controlledResponse])
-  
+    
   useEffect(() => {
     fetchNasa(query);
   },[query, mediaType]);

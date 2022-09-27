@@ -1,21 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { connect } from 'react-redux';
 import { handleQuery, handleMediaType } from '../actions';
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from 'styled-components';
 
 import { IconButton, ButtonGroup, Button } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import SearchIcon from '@mui/icons-material/Search';
-
-const iFeelSpace = require('../assets/audios/i-feel-space.mov');
 
 const Background = styled.div`
   width: 800px;
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   @media (max-width: 1100px) {
     height: 25vh;
@@ -50,39 +46,7 @@ const Input = styled.input`
   } 
 `;
 
-// const PlayAndSearch = styled.div`
-//   width: 10%;
-//   height: 100%;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// `;
-
-const PlayWrapper = styled.div`
-  width: 10%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const PlayButton = styled(IconButton)`
-  && {
-    margin-bottom: 1vh;
-    color: #FC3A1B;
-    transition: all .3s;
-    @media (min-width: 1100px) {
-      margin-bottom: 0;
-      :hover {
-        color: #2170ef;
-      }
-    }
-  }
-`;
-
 const SearchWrapper = styled.div`
-  /* width: 10%; */
-  /* height: 100%; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,7 +56,7 @@ const SearchButton = styled(IconButton)`
   && {
     color: #FC3A1B;
     transition: all .3s;
-    margin-left: 1vw;
+    margin-right: 3vw;
     @media (min-width: 1100px) {
       :hover {
         color: #2170ef;
@@ -105,7 +69,6 @@ const Form = styled.form``;
 
 const CustomSearchIcon = styled(SearchIcon)`
   @media (max-width: 1100px) {
-    /* margin-top: 3vh; */
   }
 `;
 
@@ -151,12 +114,6 @@ const VideoButton = styled(Button)<Props>`
 
 const SearchBar = ({ handleQuery, handleMediaType, mediaType }:any) => {
   const [value, setValue] = useState<string>('');
-  const [audio] = useState(new Audio(iFeelSpace));
-  const [playing, setPlaying] = useState(false);
-
-  useEffect(() => {
-    playing ? audio.play() : audio.pause();
-  },[playing, audio])
 
   const onInputChange = (event:any) => {
     setValue(event.target.value); 
@@ -186,11 +143,6 @@ const SearchBar = ({ handleQuery, handleMediaType, mediaType }:any) => {
 
   return (
     <Background>      
-      <PlayWrapper onClick={() => setPlaying(!playing)}>
-        <PlayButton>
-          {playing ? <PauseCircleIcon /> : <PlayArrowIcon />}
-        </PlayButton>
-      </PlayWrapper>
       <ImageOrVideo>
         <ButtonGroup>
           <ImageButton mediatype={mediaType} onClick={onImageButtonClick}>IMAGE</ImageButton>
