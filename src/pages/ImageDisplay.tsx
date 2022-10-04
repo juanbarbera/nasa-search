@@ -80,7 +80,8 @@ const Description = styled.div`
     width: 95%;
     height: auto;
     text-align: center;
-    word-break: break-all;
+    /* word-break: break-all; */
+    overflow-wrap: break-word;
   }
 `;
 
