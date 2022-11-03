@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Logo } from '../components/Logo';
-import { useEffect } from 'react';
+import { ReturnButton } from '../components/ReturnButton';
+import { LoadingAnimation } from '../components/LoadingAnimation';
 
 const Background = styled.div`
   background: linear-gradient(#2c2c2c, #000000);
@@ -23,33 +24,6 @@ const LogoPositioner = styled.div`
   }
 `;
 
-const ReturnButton = styled.div`
-  position: absolute;
-  left: 20vw;
-  top: 10vh;
-  font-family: 'Cabin', sans-serif;
-  font-size: 1.15rem;
-  color: #c0c0c04c;
-  cursor: pointer;
-  transition: all .1s;
-  @media (min-width: 1100px) {
-    :hover {
-      color: white;
-    }
-  }
-  @media (max-width: 1100px) {
-    position: static;
-    top: 20vh;
-    left: 0;
-    width: 100%;
-    height: 10vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #eaeaea4b;
-  }
-`;
-
 const Title = styled.div`
   font-family: 'Kanit', sans-serif;
   color: white;
@@ -63,10 +37,21 @@ const Title = styled.div`
   }
 `;
 
-const Image = styled.img`
+// type Props = {
+//   imageHasLoaded: boolean
+// }
+
+const Image = styled.img<{ imageHasLoaded: boolean }>`
   width: 80%;
   max-height: 80vh;
   object-fit: scale-down;
+  display: ${props => props.imageHasLoaded ? 'block': 'none'};
+`;
+
+const LoadingAnimationContainer = styled.div<{ imageHasLoaded: boolean }>`
+  width: 100%;
+  height: 100%;
+  display: ${props => props.imageHasLoaded ? 'none': 'block'};
 `;
 
 const Description = styled.div`
@@ -87,19 +72,34 @@ const Description = styled.div`
 
 const ImageDisplay = ({ collectionLink, collectionInfo }:any) => {
   const [imageResponse, setImageResponse]:any = useState('');
+  const [imageHasLoaded, setImageHasLoaded]:any = useState(false);
   
   const navigate = useNavigate();
   let response:any = {};
 
   const fetchNasaMedia = async () => {
-    response = await axios.get(collectionLink);
-    console.log(response.data[0]);
+    response = await axios
+      .get(collectionLink)
+      .catch(error => {
+        if (error.response) {
+          // Request made and server responded
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }})
+    // console.log(response.data[0]);
     setImageResponse(response.data[0]);
   }
   
   useEffect(() => {
     fetchNasaMedia();
-  },[])
+  },[]);
 
   return (
     <Background>
@@ -108,7 +108,10 @@ const ImageDisplay = ({ collectionLink, collectionInfo }:any) => {
       </LogoPositioner>
       <ReturnButton onClick={() => navigate('/results')}>RETURN</ReturnButton>
       <Title>{collectionInfo ? collectionInfo.title : ''}</Title>
-      <Image src={imageResponse} />
+      <Image src={imageResponse} onLoad={() => setImageHasLoaded(true)} imageHasLoaded={imageHasLoaded}/>
+      <LoadingAnimationContainer imageHasLoaded={imageHasLoaded}>
+        <LoadingAnimation />
+      </LoadingAnimationContainer>
       <Description>{collectionInfo ? collectionInfo.description : ''}</Description>      
     </Background>
   )

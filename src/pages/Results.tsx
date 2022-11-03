@@ -3,14 +3,12 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { handleCollectionLink, handleCollectionInfo } from '../actions';
+import { LoadingAnimation } from '../components/LoadingAnimation';
 
 import { Logo } from '../components/Logo';
 import SearchBar from '../components/SearchBar';
-
-import earth from '../assets/images/earth.webp';
-import jamesWebb from '../assets/images/JWST.webp';
 
 const Background = styled.section`
   width: 100%;
@@ -84,15 +82,10 @@ const ResultsGrid = styled.div<Props>`
 const SingleResult = styled.div<Props>`
   width: 345px;
   height: 235px;
-  transition: all .25s;
+  transition: all .05s;
   cursor: pointer;
-  background-image: ${props => `url(${props.imgsrc})`} !important;
+  background: ${props => `url(${props.imgsrc})`} !important;
   background-size: cover;
-  @media (min-width: 1100px) {
-    :hover {
-      transform: scale(1.085);
-    }
-  }
 `;
 
 const NoReturn = styled.div`
@@ -103,37 +96,6 @@ const NoReturn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const LoadingAnimationWrapper = styled.div`
-  height: 60vh;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Earth = styled.img`
-  width: 95px;
-  height: 95px;
-  z-index: 0;
-`;
-
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg) translateX(150px) rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg) translatex(150px) rotate(-360deg);
-  }
-`;
-
-const JamesWebb = styled.img`
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  z-index: 1;
-  animation: ${rotate} 4.5s infinite linear;
 `;
 
 const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType }:any) => {
@@ -207,10 +169,7 @@ const Results = ({ handleCollectionLink, handleCollectionInfo, query, mediaType 
   const renderResults = () => {
     if (isLoading) {
       return (
-        <LoadingAnimationWrapper>
-          <Earth src={earth} />
-          <JamesWebb src={jamesWebb} />
-        </LoadingAnimationWrapper>
+        <LoadingAnimation />
       )
     } else {
       if (controlledResponse.length > 1){

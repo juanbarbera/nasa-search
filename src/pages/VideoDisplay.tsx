@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Logo } from '../components/Logo';
-import { useEffect } from 'react';
+import { ReturnButton } from '../components/ReturnButton';
 
 const Background = styled.div`
   background: linear-gradient(rgb(35,35,35), #0c0c0c);
@@ -20,33 +20,6 @@ const LogoPositioner = styled.div`
   transform: scale(.55);
   @media (max-width: 1100px) {
     margin-left: 10vw;
-  }
-`;
-
-const ReturnButton = styled.div`
-  position: absolute;
-  left: 20vw;
-  top: 10vh;
-  font-family: 'Cabin', sans-serif;
-  font-size: 1.5rem;
-  color: rgba(100,100,100,0.3);
-  cursor: pointer;
-  transition: all .1s;
-  @media (min-width: 1100px) {
-    :hover {
-      color: white;
-    }
-  }
-  @media (max-width: 1100px) {
-    position: static;
-    top: 20vh;
-    left: 0;
-    width: 100%;
-    height: 10vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #eaeaea4b;
   }
 `;
 
